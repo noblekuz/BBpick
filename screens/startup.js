@@ -5,6 +5,10 @@ const Startup = ({navigation}) => {
     const buttonHandler = () =>{
         navigation.navigate("login")
     }
+
+    const buttonHandler1 = () =>{
+      navigation.navigate("signup")
+    }
   return (
     <View style={styles.container}>
     <View style={{flex:2,justifyContent:'center',marginTop:10}}>
@@ -49,11 +53,13 @@ const Startup = ({navigation}) => {
 
       <View style={{flex:1, }}>
           <TouchableOpacity style={styles.getstartedButton}
-            onPress ={buttonHandler}
+            onPress ={buttonHandler1}
           >
             <Text style={styles.getstartedTextStyle}>Get Started</Text>
           </TouchableOpacity >
-          <TouchableOpacity style={styles.loginButton}>
+          <TouchableOpacity style={styles.loginButton}
+            onPress = {buttonHandler}
+          >
             <Text style={styles.loginTextStyle}>Log in</Text>
           </TouchableOpacity >        
       </View>

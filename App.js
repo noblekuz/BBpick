@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-gesture-handler';
 import { StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
+import Signup from './screens/Signup';
 import Startup from './screens/startup';
 import Login from './screens/login';
 import { NavigationContainer } from '@react-navigation/native';
@@ -21,6 +22,11 @@ export default function App() {
         <Stack.Screen
           name = "login"
           component={Login}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name = "signup"
+          component={Signup}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

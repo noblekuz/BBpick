@@ -13,7 +13,14 @@ import {
 } from 'react-native';
 import { Entypo } from '@expo/vector-icons'
 
-const Signup = () => {
+async function fetchCountriesData() {
+    const res = await fetch('https://restcountries.com/v3.1/all?fields=flags,idd,name')
+    const data = await res.json()
+  
+    return data
+}
+
+const Signup = ({navigation}) => {
  
     const [countries, SetCountries] = useState([])
     const [filteredCountries, SetFilteredCountries] = useState([])
@@ -36,18 +43,18 @@ const Signup = () => {
       return expression.toLowerCase().includes(text.toLowerCase())
     }
 
-      useEffect(() => {
-          async function tempFunc() {
-          const data = await fetchCountriesData()
-          const mappedData = data?.map(country => {
-        return {
-          flag: country.flags.png,
-          name: country.name.common,
-          codes: country.idd.suffixes?.map(
-            suffix => `${country.idd.root}${suffix}`
-          ) ?? [country.idd.root],
-        }
-      })
+    useEffect(() => {
+        async function tempFunc() {
+        const data = await fetchCountriesData()
+        const mappedData = data?.map(country => {
+            return {
+            flag: country.flags.png,
+            name: country.name.common,
+            codes: country.idd.suffixes?.map(
+                suffix => `${country.idd.root}${suffix}`
+            ) ?? [country.idd.root],
+            }
+        })
 
       SetCountries(mappedData)
 
@@ -161,7 +168,7 @@ const Signup = () => {
             </TouchableOpacity>
             <View style={{flexDirection: 'row', justifyContent:'center', alignContent: 'flex-end', marginTop: 20}}>
               <Text style={styles.bottomText}>Already have an account?</Text>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={()=> navigation.navigate("login")}>
                 <Text style={{...styles.bottomText, color:'#0af', fontSize: 18, marginLeft: 5}}>Log in</Text>
               </TouchableOpacity>
             </View>
@@ -176,13 +183,14 @@ const Signup = () => {
 export default Signup
 const styles = StyleSheet.create({
     container: {
-     // ...StyleSheet.absoluteFillObject,
-      //paddingTop: 30,
-      paddingVertical:40,
-      flex:1,
-      backgroundColor: 'white',
-      alignItems: 'center',
-      justifyContent: 'center',
+      ...StyleSheet.absoluteFillObject,
+      paddingTop: 30,
+    //   paddingVertical:40,
+    //   paddingHorizontal:20,
+    //   flex:1,
+    //   backgroundColor: 'white',
+    //   alignItems: 'center',
+    //   justifyContent: 'center',
     },
   
     header: {
