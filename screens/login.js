@@ -7,7 +7,7 @@ import {
        } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
-import Home from './components/home';
+import CallCountries from '../components/callCountries';
 
 const Login = ({navigation}) => {
   const [isVisible, setisVisible] = useState(false)
@@ -16,15 +16,7 @@ const Login = ({navigation}) => {
     setisVisible(bool)
   }
 
-  const [countries, SetCountries] = useState (
-    {name: 'Ghana', key:'1'},
-    {name: 'Togo', key:'2'},
-    {name: 'Canada', key:'3'},
-    {name: 'China', key:'4'},
-    {name: 'Germany', key:'5'},
-    {name: 'England', key:'6'},
-    {name: 'USA', key:'7'}
-  )
+ 
   return (
     <View style={styles.container}>
       <View style={{alignItems: 'center', flexDirection:'row' }}>
@@ -53,7 +45,7 @@ const Login = ({navigation}) => {
               visible= {isVisible}
               onRequestClose = {()=> {modalVisibility(false)}}
             >
-                <Home countries={countries}/>
+                <CallCountries />
     
             </Modal>
           </View>
@@ -64,7 +56,10 @@ const Login = ({navigation}) => {
         
           
         <View>
-          <TouchableOpacity style={styles.continueButton}>
+          <TouchableOpacity 
+            style={styles.continueButton}
+            onPress={()=>navigation.navigate('home')}
+          >
             <Text>Continue</Text>
           </TouchableOpacity>
         </View>

@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 import Signup from './screens/Signup';
 import Startup from './screens/startup';
 import Login from './screens/login';
+import Home from './screens/home';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -15,7 +16,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name = "Home"
+          name = "startup"
           component={Startup}
           options={{headerShown: false}}
         />
@@ -27,6 +28,11 @@ export default function App() {
         <Stack.Screen
           name = "signup"
           component={Signup}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name = "home"
+          component={Home}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

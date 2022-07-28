@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity,Text, FlatList, StyleSheet,  } from 'react-native'
 
-export default function Home() {
+export default function callCountries() {
 
   const [countries, SetCountries] = useState (
     {name: 'Ghana', key:'1'},
