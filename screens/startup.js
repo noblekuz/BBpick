@@ -12,7 +12,8 @@ const Startup = ({navigation}) => {
   return (
     <View style={styles.container}>
     <View style={{flex:2,justifyContent:'center',marginTop:10}}>
-        <Text style={{color:'white',fontSize:100}}>BBPick</Text>
+        {/* <Text style={{color:'white',fontSize:100}}>BBPick</Text> */}
+        <Image source={require('../assets/logo.png')} />
       </View>
 
       <View style={{flex:4}}>

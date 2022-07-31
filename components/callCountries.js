@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { TouchableOpacity,Text, FlatList, StyleSheet,  } from 'react-native'
 
 export default function callCountries() {
@@ -13,16 +13,16 @@ export default function callCountries() {
     {name: 'USA', key:'7'}
   )
     return (
-      <TouchableOpacity>
+      <View>
         <FlatList 
           data = {countries}
-          renderItem={(item) => (
-            <View style={styles.list}>
+          renderItem={({item}) => (
+            <TouchableOpacity style={styles.list}>
                 <Text>{item.name}</Text>
-            </View>
+            </TouchableOpacity>
           )}
         />
-      </TouchableOpacity>
+      </View>
     )
 } 
 const styles = StyleSheet.create({

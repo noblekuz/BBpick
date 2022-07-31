@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, AntDesign } from '@expo/vector-icons';
+
 import {
     StyleSheet, 
     View,
@@ -19,8 +20,8 @@ export default function SearchRequest (){
                 <TextInput style={{marginLeft:10, fontSize:18, color:'#A9A9B8'}} 
                     placeholder='search for your anything'/>
             </View> 
-            <View style={{justifyContent: 'center',alignItems: 'center'}} >
-                <Text style={{color:'white'}}>hi</Text>
+            <View style={{flex:1,justifyContent: 'center',alignItems: 'center'}} >
+                <AntDesign name="checkcircleo" size={24} color="#fff" />
             </View>
         </View>
         

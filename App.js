@@ -4,9 +4,9 @@ import { StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 import Signup from './screens/Signup';
 import Startup from './screens/startup';
 import Login from './screens/login';
-import Home from './screens/home';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import TabRouting from './screens/tabRouting';
 
 
 const Stack = createNativeStackNavigator();
@@ -31,8 +31,8 @@ export default function App() {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name = "home"
-          component={Home}
+          name = "tabRouting"
+          component={TabRouting}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

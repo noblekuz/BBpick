@@ -12,7 +12,6 @@ import {
   Image,
        } from 'react-native';
 import Goodslist from '../components/goodslist';
-import { AntDesign } from '@expo/vector-icons';
 
 
 export default function Home (){
@@ -48,6 +47,7 @@ export default function Home (){
                     <FontAwesome5 name="user-friends" size={35} color="#4eb6ed" />
                 </View>
             </View>
+        
             <View style={{flex:10,marginHorizontal:20, width:'100%'}}>
                 <FlatList
                     numColumns={2}
@@ -59,10 +59,9 @@ export default function Home (){
                          ) 
                     }}
                 /> 
+                
             </View>
-            <View style={{backgroundColor:'white',flex:1}}>
-                {/* Navigation bar below */}
-            </View>
+            
         </View>  
     )
     
@@ -71,7 +70,7 @@ const styles = StyleSheet.create({
     container: {
         paddingTop : 40,
         flex: 1,
-        backgroundColor: '#290038',
+        backgroundColor: '#290038'
 
     },
     mkrequest: {
@@ -84,8 +83,7 @@ const styles = StyleSheet.create({
         height: 120,
         marginHorizontal: 20
 
-    },
-
-    
+    }
+   
     
 })

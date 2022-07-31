@@ -41,7 +41,7 @@ const Login = ({navigation}) => {
             </TouchableOpacity>
             <Modal
               animationType='none'
-              transparent= {true}
+              // transparent= {true}
               visible= {isVisible}
               onRequestClose = {()=> {modalVisibility(false)}}
             >
@@ -58,7 +58,7 @@ const Login = ({navigation}) => {
         <View>
           <TouchableOpacity 
             style={styles.continueButton}
-            onPress={()=>navigation.navigate('home')}
+            onPress={()=>navigation.navigate('tabRouting')}
           >
             <Text>Continue</Text>
           </TouchableOpacity>

@@ -1,4 +1,6 @@
 import React, {useState} from 'react';
+import { LinearGradient } from 'expo-linear-gradient';
+
 import {
     View,
     Text,
@@ -10,14 +12,28 @@ import {
 
 export default function Goodslist({item}){
     return(
+        
         <TouchableOpacity style={{marginTop:30,marginRight:15}}>
-            <Image
-                source = {item.image}
-                style={styles.imageStyle}
-            />
-                {/* <Text style={styles.textStyle}>
-                    {item.name}
-                </Text> */}
+            <ImageBackground
+                    source = {item.image}
+                    style={styles.imageStyle}
+                    imageStyle = {{borderRadius: 20,}}
+            > 
+                <LinearGradient
+                    colors={['transparent','rgba(0,0,0,1)', ]}
+                    start ={{x:0, y:0.5}}
+                    end = {{x:0, y:0.8}}
+                    style ={styles.background}
+                    //style ={styles.imageStyle}
+                >
+                        <Text style={styles.textStyle}>
+                            {item.name}
+                        </Text>
+                </LinearGradient>   
+            
+            </ImageBackground>
+            
+                
 
         </TouchableOpacity>
     )
@@ -26,18 +42,28 @@ const styles = StyleSheet.create({
     imageStyle:{
         flex:1,
         //position: 'relative',
-        height: 120,
-        width: 180,
+        //height: 120,
+        //width: 180,
         borderRadius:20,
         borderWidth: 3,
         borderColor: '#fff',
+        
+    },
+    background: {
+        flex: 1,
+        height: 120,
+        width: 180,
+        justifyContent:'flex-end',
+        borderRadius:20,
+
+
     },
     textStyle: {
+        padding: 10,
         color: '#fff',
-        fontSize: 24,
-        fontWeight: 'bold',
-        bottom: 5,
-        left: 5,
-        position: 'absolute'
+        fontSize: 15,
+        fontWeight: 'bold'
     }
+    
+    
 })
