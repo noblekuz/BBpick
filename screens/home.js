@@ -26,7 +26,7 @@ export default function Home (){
          {name : 'Seebays Printing shop', image: require('../assets/goodsImage/printingShop.png')},
 
     ]);
-   // const [goods, setGoods] = useState(popularSearch)
+    //const [goods, setGoods] = useState(popularSearch)
     return(
         <View style = {styles.container}>
             <View style={{flex:1,marginHorizontal:20}}>

@@ -40,7 +40,8 @@ export default function TabRouting() {
         options ={{
             tabBarLabel : "Categories",
             tabBarIcon : ({color}) => (
-            <FontAwesome5 name="layer-group" size={24} color= {color} />             )
+            <FontAwesome5 name="layer-group" size={24} color= {color} />             
+            )
         }} 
         />
       <Tab.Screen name='Me' 

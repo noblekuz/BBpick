@@ -18,7 +18,7 @@ const Startup = ({navigation}) => {
 
       <View style={{flex:4}}>
         <View style={{flex:1, flexDirection:'row',justifyContent:'space-evenly'}}>
-          <Image style={{borderRadius: 11,height:110, width:200}} 
+          <Image style={{borderRadius: 11,marginRight:6,height:110, width:200}} 
             source={require('../assets/bbpickimg-1.png')}
           />
           <Image style={{borderRadius: 11,height:110, width:200}}
@@ -26,10 +26,10 @@ const Startup = ({navigation}) => {
           />
         </View>
         <View style={{flex:1, flexDirection:'row',justifyContent:'space-evenly'}}>
-          <Image style={{ borderRadius: 11,resizeMode:'cover',height:110, width:130}} 
+          <Image style={{ borderRadius: 11,resizeMode:'cover',marginRight:5,height:110, width:130}} 
               source={require('../assets/bbpickimg-3.png')}
           />
-          <Image style={{borderRadius: 11,height:110,resizeMode:'cover', width:130}} 
+          <Image style={{borderRadius: 11,height:110,resizeMode:'cover',marginRight:5, width:130}} 
               source={require('../assets/bbpickimg-4.png')}
           />
           <Image style={{borderRadius: 11,height:110,resizeMode:'cover', width:130}} 
@@ -37,7 +37,7 @@ const Startup = ({navigation}) => {
           />
         </View>
         <View style={{flex:1, flexDirection:'row',justifyContent:'space-evenly'}}>
-          <Image style={{resizeMode:'cover', borderRadius: 11,height:110, width:200}} 
+          <Image style={{resizeMode:'cover',marginRight:6, borderRadius: 11,height:110, width:200}} 
               source={require('../assets/bbpickimg-6.png')}
           />
           <Image style={{borderRadius: 11,resizeMode:'cover',height:110, width:200}} 

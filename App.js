@@ -7,6 +7,7 @@ import Login from './screens/login';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TabRouting from './screens/tabRouting';
+import Restaurant from './screens/Restaurant';
 
 
 const Stack = createNativeStackNavigator();
@@ -33,6 +34,11 @@ export default function App() {
         <Stack.Screen
           name = "tabRouting"
           component={TabRouting}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name = "Restaurant"
+          component={Restaurant}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
