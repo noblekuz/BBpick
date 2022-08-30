@@ -8,6 +8,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TabRouting from './screens/tabRouting';
 import Restaurant from './screens/Restaurant';
+import MealScreen from './screens/MealScreen';
+import { Provider } from 'react-redux';
+import { store } from './store';
+import CartShop from './components/CartShop';
+import PreparingOrder from './screens/PreparingOrder';
 
 
 const Stack = createNativeStackNavigator();
@@ -15,33 +20,51 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name = "startup"
-          component={Startup}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name = "login"
-          component={Login}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name = "signup"
-          component={Signup}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name = "tabRouting"
-          component={TabRouting}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name = "Restaurant"
-          component={Restaurant}
-          options={{headerShown: false}}
-        />
-      </Stack.Navigator>
+      <Provider store ={store}>
+        <Stack.Navigator>
+          <Stack.Screen
+            name = "startup"
+            component={Startup}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name = "login"
+            component={Login}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name = "signup"
+            component={Signup}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name = "tabRouting"
+            component={TabRouting}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name = "Restaurant"
+            component={Restaurant}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name = "MealScreen"
+            component={MealScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name = "CartShop"
+            component={CartShop}
+            options={{presentation:'modal', headerShown: false}}
+          />
+          <Stack.Screen
+            name = "PreparingOrder"
+            component={PreparingOrder}
+            options={{presentation:'fullScreenModal', headerShown: false}}
+          />
+          
+        </Stack.Navigator>
+      </Provider>
     </NavigationContainer>
     
     // <View style={styles.container}>

@@ -1,12 +1,16 @@
-import { View, StyleSheet, TextInput } from 'react-native'
+import { View, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
 import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 
 const Searches = () => {
+    const navigation = useNavigation();
   return (
     <View style ={styles.contain}>
-        <Ionicons name="arrow-back" size={24} color= '#F5AF22' />
+        <TouchableOpacity onPress={navigation.goBack}>
+            <Ionicons name="arrow-back" size={24} color= '#F5AF22' />
+        </TouchableOpacity>
         <View style={styles.searchInput} >
             <Ionicons name="search" size={24} color = '#A9A9B8' />
             <TextInput style={{marginLeft:10, fontSize:18, color:'#A9A9B8'}} 
