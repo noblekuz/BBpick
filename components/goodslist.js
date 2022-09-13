@@ -13,7 +13,7 @@ import {
 export default function Goodslist({item}){
     return(
         
-        <TouchableOpacity style={{marginTop:30,marginRight:15}}>
+        <TouchableOpacity style={{marginVertical:15, marginHorizontal: 5}}>
             <ImageBackground
                     source = {item.image}
                     style={styles.imageStyle}
@@ -32,9 +32,6 @@ export default function Goodslist({item}){
                 </LinearGradient>   
             
             </ImageBackground>
-            
-                
-
         </TouchableOpacity>
     )
 }
@@ -43,7 +40,7 @@ const styles = StyleSheet.create({
         flex:1,
         //position: 'relative',
         //height: 120,
-        //width: 180,
+        width: "100%",
         borderRadius:20,
         borderWidth: 3,
         borderColor: '#fff',
@@ -52,7 +49,7 @@ const styles = StyleSheet.create({
     background: {
         flex: 1,
         height: 120,
-        width: 180,
+        width: '100%',
         justifyContent:'flex-end',
         borderRadius:20,
 

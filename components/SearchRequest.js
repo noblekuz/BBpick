@@ -17,7 +17,7 @@ export default function SearchRequest (){
         <View style={styles.contain}>
             <View style={styles.searchInput} >
                 <Ionicons name="search" size={24} color = '#A9A9B8' />
-                <TextInput style={{marginLeft:10, fontSize:18, color:'#A9A9B8'}} 
+                <TextInput style={{marginLeft:5, fontSize:16, color:'#A9A9B8', width:'70%'}} 
                     placeholder='search for your anything'/>
             </View> 
             <View style={{flex:1,justifyContent: 'center',alignItems: 'center'}} >
@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
     contain: {
         height:40,
         flexDirection:'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        width:'100%'
 
     },
     searchInput: {
@@ -42,8 +43,9 @@ const styles = StyleSheet.create({
         opacity: 0.5,
         borderRadius:8,
         paddingLeft: 20,
-        width: 300,
-        height:40
+        width: "85%",
+        height:40,
+        marginVertical:10
     
     }
 })

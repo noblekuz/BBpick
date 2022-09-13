@@ -1,6 +1,35 @@
 import React from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 
+
+registerForPushNotificationsAsync = async () => {
+  if (Device.isDevice) {
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+    }
+    const token = (await Notifications.getExpoPushTokenAsync()).data;
+    console.log(token);
+    this.setState({ expoPushToken: token });
+  } else {
+    alert('Must use physical device for Push Notifications');
+  }
+
+  if (Platform.OS === 'android') {
+    Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
+  }
+  };
+
 const Startup = ({navigation}) => {
     const buttonHandler = () =>{
         navigation.navigate("login")
@@ -47,8 +76,8 @@ const Startup = ({navigation}) => {
       </View>
 
       <View style={{flex:2, justifyContent:'center'}}>
-        <Text style={{fontSize:25, textAlign: 'center', color:'white'}}>
-          Hey guys!!!!... This is just a freestyle . I will make changes with something catchy later on. Gratias tibi
+        <Text style={{fontSize:16, textAlign: 'center', color:'white', paddingHorizontal: 15}}>
+          Hey guys! This is just a freestyle . I will make changes with something catchy later on. Gratias tibi
           </Text>
       </View>
 
@@ -84,7 +113,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#F5AF22',
       width:312,
       height:48,
-      borderRadius:'14',
+      borderRadius:14,
       justifyContent: 'center',
       alignItems: 'center',
       marginBottom: 10
@@ -93,7 +122,7 @@ const styles = StyleSheet.create({
     loginButton: {
       width:312,
       height:48,
-      borderRadius:'14',
+      borderRadius:14,
       borderStyle: 'solid',
       borderColor: '#F5AF22',
       borderWidth: 1,
