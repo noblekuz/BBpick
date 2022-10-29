@@ -1,4 +1,5 @@
-
+const appID = 'jUTET8D4ZARJa3QeLmu9P1wn6PCYtDiphlg1cQ7t';
+const jsID = 'JJachexGc60uvsUOxQIcudUMlvLKl8LXFcPv4Sr3';
 //New ID for SignUp
 function generateNewID() {
     var letters = '0123456789ABCDEFGHJKLMNOPQRSTUVWXY';

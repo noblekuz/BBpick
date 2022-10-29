@@ -41,7 +41,7 @@ const MealScreen = () => {
           </View>
           <View style={{flexDirection:'row',marginTop:5}}>
                 <EvilIcons name="location" size={20} color="#757585" />
-                <Text style={{fontWeight:'300'}}>Nearby {details.location}</Text>
+                <Text style={{fontWeight:'300'}}>Near {details.location}</Text>
           </View>
 
         </View>
@@ -69,10 +69,11 @@ export default MealScreen
 const styles = StyleSheet.create({
     container: {
         flex:1,
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
+        marginTop:50
     },
     imageStyle:{
-      height: 220,
+      height: 200,
       resizeMethod: 'resize',
       resizeMode: 'center'
     },

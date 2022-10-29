@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 const RestaurantCard = ({details, meal}) => {
 
     useEffect(() => {
-        console.log({details})
+        //console.log({details})
     })
 
     const navigation = useNavigation();
@@ -18,12 +18,12 @@ const RestaurantCard = ({details, meal}) => {
                 navigation.navigate('MealScreen',{details, meal})
             }}
         >
-            <View style={{width: 350,backgroundColor: '#fff',paddingBottom:20,borderRadius:20}}>
+            <View style={{width: "100%",backgroundColor: '#f5ce42',padding:20,borderRadius:10}}>
                 <Image
                     style = {styles.imgStyle}
                     source = {details.image}
                 />
-                <View style={{flexDirection:'row',marginTop: 5,justifyContent: 'space-between', alignItems: 'center'}}>
+                <View style={{flexDirection:'row',marginTop:5,justifyContent: 'space-between', alignItems: 'center'}}>
                     <View>
                         <Text style={{fontSize:24, fontWeight: 'bold'}}>{details.title}</Text>
                     </View>
@@ -34,7 +34,7 @@ const RestaurantCard = ({details, meal}) => {
                 </View>
                 <View style={{marginTop:5,flexDirection:'row'}}>
                     <EvilIcons name="location" size={18} color="#757585" />
-                    <Text style={{marginLeft:5, fontWeight: '300'}}>Nearby {details.location}</Text>
+                    <Text style={{marginLeft:5, fontWeight: '300'}}>Near {details.location}</Text>
                 </View>
             </View>
                 
@@ -50,12 +50,12 @@ const RestaurantCard = ({details, meal}) => {
 export default RestaurantCard
 const styles = StyleSheet.create({
     contain:{
-        marginTop:20,
-        paddingLeft: 20,
+        marginTop:10,
+        padding: 20,
     },
     imgStyle : {
-        height: 140,
-        width: 350,
+        height: 130,
+        width: "100%",
         resizeMode: 'cover',
     }
 })

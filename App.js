@@ -13,6 +13,8 @@ import { Provider } from 'react-redux';
 import { store } from './store';
 import CartShop from './components/CartShop';
 import PreparingOrder from './screens/PreparingOrder';
+import OrderDetails from './screens/OrderDetails';
+import ActiveOrderDetails from './screens/ActiveOrderDetails';
 
 
 const Stack = createNativeStackNavigator();
@@ -60,6 +62,16 @@ export default function App() {
           <Stack.Screen
             name = "PreparingOrder"
             component={PreparingOrder}
+            options={{presentation:'fullScreenModal', headerShown: false}}
+          />
+          <Stack.Screen
+            name = "OrderDetails"
+            component={OrderDetails}
+            options={{presentation:'fullScreenModal', headerShown: false}}
+          />
+          <Stack.Screen
+            name = "ActiveOrderDetails"
+            component={ActiveOrderDetails}
             options={{presentation:'fullScreenModal', headerShown: false}}
           />
           

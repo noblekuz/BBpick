@@ -11,11 +11,13 @@ const Restaurant = () => {
     const {params:{details, name} }= useRoute();
         
   return (
-    <SafeAreaView style= {styles.container}>
-        <Searches  />
-        <View style={{marginTop:10,justifyContent: 'center',alignItems:'center'}}>
-            <Text style={{fontSize:30,fontWeight:'900',color:'#290038'}}>{name} </Text>
+    <View style= {{marginTop:50 }}>
+        
+        <View style={{marginVertical:10,justifyContent: 'center',alignItems:'center'}}>
+            <Text style={{fontSize:30,fontWeight:'900',color:'#290038'}}>{name}</Text>
+            <Searches  />
         </View>
+        
         <ScrollView>
             {details.map((detail)=>(
                 <RestaurantCard  details={detail}  meal= {detail.meal}/>  
@@ -33,7 +35,7 @@ const Restaurant = () => {
         </View> */}
         
         
-    </SafeAreaView>
+    </View>
   )
 }
 
@@ -42,6 +44,8 @@ export default Restaurant
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingHorizontal: 10
+        width:"100%",
+        marginTop:60,
+        marginHorizontal: 20
     }
 })

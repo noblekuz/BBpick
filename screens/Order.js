@@ -1,255 +1,421 @@
-import React, { Component, useState, useRef, useMemo, useEffect } from 'react';
-import { Dimensions, StatusBar, KeyboardAvoidingView, Picker, ActivityIndicator, StyleSheet, View, Text, Button, FlatList, Image, Alert, Platform, ToastAndroid, TouchableOpacity, Modal, ScrollView, Animated, TextInput } from 'react-native';
-import MapView, { Marker, Callout, PROVIDER_GOOGLE } from 'react-native-maps';
-import { mapGrayStyle, mapDarkStyle, mapStandardStyle } from '../components/mapData';
-import { FontAwesome5 } from '@expo/vector-icons';
-
-import * as Notifications from "expo-notifications"
-import * as Permissions from "expo-permissions"
-import Constants from "expo-constants"
-
-let liveLat= 6.677266942995464
-let liveLong=-1.571421502504538
-
-let markers = [
-  {latitude: 6.676932165275779, longitude: -1.5644701054124046, type:"d"},
-  {latitude: 6.674077500349983, longitude: -1.5821534362004266, type:"r"},
-  { latitude: 6.66555431727484, longitude: -1.56334488709714, type:"d"}
-
-]
-
-const Order = () => {
-  const getCurrLatLong = () =>{
-    /* navigator.geolocation.getCurrentPosition(pos =>{           
-         setLiveLat(pos.coords.longitude)
-        setLiveLong(pos.coords.latitude) 
-        liveLong = pos.coords.longitude
-        liveLat = pos.coords.latitude
-        //setReceiverLat(pos.coords.latitude)
-        //setReceiverLong(pos.coords.longitude)
-                  
-
-        //return pos
-        //    }, error => Alert.alert(error.message),
-        //    { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }) */
-           
-}
+import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, ScrollView, TextInput, FlatList, Alert } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { selecteRestaurant } from '../feature/RestaurantSlice'
+import { selectedBasketItem, selectedBasketTotal } from '../feature/basketSlice'
+import { Entypo, MaterialIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import { theUser } from '../feature/UserSlice'
 
 
-
-useEffect(() => {
-  // Good!
-  getCurrLatLong(); // Side-effect!
-}, []);
-
-    let [busy, setBusy] = useState(false)
-    let [myDispatchers, setMyDispatchers] =useState([]);
-    let [myRequestors, setMyRequestors] = useState([]);
-    let [myOrders, setMyOrders] = useState([]);
-    
-    let [myID, setMyID] = useState(511894);
-    let [refresh, setRefresh] = useState(0);
-
-    
-    //const [markers, setTheMarkers] = useState(myDispatchers);
-    //const [markerDesign, setMarkerDesign] = useState(require('./assets/img/img/shopper_light.png'));
-    const [markerDesign, setMarkerDesign] = useState()
-
-    let [requestType, setRequestType] = useState(1);
-    let [markerChoice, setMarkerChoice] = useState("shopper");
-
-    let switchMarkers=(type)=>{
-
-        if (type===1){
-            setTheMarkers([]);
-            setRequestType(type);
-            //setMarkerDesign(require('./assets/img/img/shopper_light.png'));           
-            setMarkerDesign();           
-            //setMapState(initialMapState);
-        }else if(type===2){
-            setTheMarkers([]);
-            setRequestType(type);
-            setMarkerDesign();           
-            //setMapState(initialMapState);
-
-        }
-
-    } 
-
-    let [myNewLat, setmyNewLat] = useState(liveLat)
-    let [myNewLong, setmyNewLong] = useState(liveLong)
-    var [regionlatitudeDelta, setRegLatDelta] = useState(0.0298);
-    var [regionlongitudeDelta, setRegLongDelta] = useState(0.0298);
-
-    const initialMapState ={
-  
-        markers,   
-        region: {
-            latitude: liveLat,
-            longitude:  liveLong,
-            latitudeDelta: regionlatitudeDelta,
-            longitudeDelta: regionlongitudeDelta,
-
-        },
-    };
-
-    
+const CartShop = () => {
+    const restaurant = useSelector(selecteRestaurant);
+    const items = useSelector(selectedBasketItem);
+    const loggedUser = useSelector(theUser);
+    const dispatch = useDispatch();
+    const [groupedItemsInCart, setGroupedItemsInCart] = useState([]);
+    const cartTotal = useSelector(selectedBasketTotal)
+    const navigation = useNavigation()
 
 
-    const [mapState, setMapState] = useState(initialMapState);
-    let mapIndex = 0;
-    //let mapAnimation = new Animated.Value(0);
+ 
 
-  /*   useEffect(() => {
-        mapAnimation.addListener(({ value }) => {
-          
-          let index = Math.floor(value / CARD_WIDTH + 0.3); 
-          if (index >= mapState.markers.length) {
-            index = mapState.markers.length - 1;
-          }
-          if (index <= 0) {
-            index = 0;
-          }
-    
-          clearTimeout(regionTimeout);
-    
-          const regionTimeout = setTimeout(() => {
-            if( mapIndex !== index ) {
-              mapIndex = index;
-              const { coordinate } = mapState.markers[index];
-              _map.current.animateToRegion(
-                {
-                  ...coordinate,
-                  latitudeDelta: mapState.region.latitudeDelta,
-                  longitudeDelta: mapState.region.longitudeDelta,
-                },
-                350
-              );
+    let head = {
+        headers:{
+            'Content-Type': 'application/json',
+            'X-Parse-Application-Id': 'jUTET8D4ZARJa3QeLmu9P1wn6PCYtDiphlg1cQ7t',
+            'X-Parse-REST-API-Key': 'BftEOnyYCXwBn81sycpKcTw03xxJ8nkVA362b9Om'
+                    }
             }
-          }, 10);
-        });
-      });
- */
-    
-  /*     const interpolations = markers.map((marker, index) => {
 
-        const inputRange = [
-          (index - 1) * CARD_WIDTH,
-          index * CARD_WIDTH,
-          ((index + 1) * CARD_WIDTH),
-        ];
-    
-        const scale = mapAnimation.interpolate({
-          inputRange,
-          outputRange: [1, 2, 1],
-          extrapolate: "clamp"
-        });
-    
-        return { scale };
 
+            let [allDeals, setAllDeals] = useState([])
+            const fetch_deals = async() =>{
         
-      }); */
+                let payload = { 
+                    user:{
+                        id:loggedUser.loggedInUser.accDet.userNum,
+                        lat:loggedUser.loggedInUser.accDet.coordinates.latitude, 
+                        long:loggedUser.loggedInUser.accDet.coordinates.longitude,              
+                        scanParam:loggedUser.loggedInUser.mySettings.scanParam
+                    }
+                 };
+                    
+                await axios.post(`https://parseapi.back4app.com/functions/scanMyHood`, payload, head )
+                .then(function(response) {
+                    console.log(response.data.result.length);
+                    
+                    if(response.data.result.length>0){
+                        //0 && loggedUser.loggedInUser.accDet.currentRole===0
+                       //console.log(response.data.result.length)
+                       console.log(response.data.result);
 
-  /*     const onMarkerPress = (mapEventData) => {
-        const markerID = mapEventData._targetInst.return.key;
+                       //console.log(response.data.result[4].creator_id)
+                      // console.log(loggedUser.loggedInUser.accDet.userNum)
+                            
+                       in_out_Deals = response.data.result.filter(function (item){
+                               return item.creator_id === loggedUser.loggedInUser.accDet.userNum || item.dispatcherDet.userNum === loggedUser.loggedInUser.accDet.userNum 
+                            }     
+                            ) 
+
+
+                            setAllDeals(
+                                response.data.result.filter(function(item){
+                                   return item.creator_id === loggedUser.loggedInUser.accDet.userNum || item.dispatcherDet.userNum === loggedUser.loggedInUser.accDet.userNum
+                                }
+                                   
+                                ) 
+                            )
+                                
+                           // console.log(in_out_Deals.length)
+                                               
+
+
+                 
+
+
+                            
+                            //return response.data.result
+        
+                    }else if (response.data.result.length>0 && loggedUser.loggedInUser.accDet.currentRole===1){
+                            //setBusy(false) 
+
+                            in_out_Deals = response.data.result 
+                            setAllDeals(response.data.result)
+                    }else{
+
+                    }
+        
+                }).catch(function(error){
+                    //setBusy(false)        
+                    Alert.alert('error ' + error.response.request._response);
+                    //console.log(error.response.request._response);
+                    
+        
+                });
+        
+            }
+
+    useEffect(() =>{
+        fetch_deals()
+        const groupedItems = items.reduce((results, item)=>{
+            (results[item.id] = results[item.id] || []).push(item);
+            return results;
+        }, {});
+
+        setGroupedItemsInCart(groupedItems)
+    },[items])
+
+  
+    const toggleViewOrder = (item)=>{
+        navigation.navigate('OrderDetails', {item})
+    }
+
+
+    const deleteOrder =async(object)=>{
+        let payload = { 
+            objectId: object.objectId,
+            lat:loggedUser.loggedInUser.accDet.coordinates.latitude, 
+            long:loggedUser.loggedInUser.accDet.coordinates.longitude,              
+            scanParam:loggedUser.loggedInUser.mySettings.scanParam
+         };
+
+
+
+         Alert.alert(
+           "Delete Confirmation",
+           "Are you sure you want to delete "+ object.title,
+           [
+             {
+               text: "Cancel",
+               onPress: () => console.log(""),
+               style: "cancel"
+             },
+             { text: "OK", onPress: () => clearOrder(payload) }
+           ]
+         );
+
+        const clearOrder = async(payload)=>{
+
+            await axios.post(`https://parseapi.back4app.com/functions/deleteOrder`, payload, head )
+                .then(function(response) {
+
+                    if(response.data.result.length>0){
+                            in_out_Deals = response.data.result 
+                            setAllDeals(response.data.result)
+                            //return response.data.result
+
+                    }else{
+                            //setBusy(false) 
+                    }
+
+                }).catch(function(error){
+                    //setBusy(false)        
+                    Alert.alert('error ' + error.response.request._response);
+                    return []
+
+                });
+
+        } }
+        
+
+
+    const takeOrder =async(object)=>{
+
+        let payload = { 
+            object: object,
+            lat:loggedUser.loggedInUser.accDet.coordinates.latitude, 
+            long:loggedUser.loggedInUser.accDet.coordinates.longitude,              
+            scanParam:loggedUser.loggedInUser.mySettings.scanParam,
+            myDet: {accDetId: loggedUser.loggedInUser.accDet.objectId,
+                ghanaPostAddress: loggedUser.loggedInUser.accDet.ghanaPostAddress,
+                hostelName: loggedUser.loggedInUser.accDet.hostelName,
+                userNum: loggedUser.loggedInUser.accDet.userNum,
+                reviews: loggedUser.loggedInUser.accDet.reviews,
+                roomNo: loggedUser.loggedInUser.accDet.roomNo,
+                uniqueAccNo: loggedUser.loggedInUser.user.uniqueAccNo,
+                phone: loggedUser.loggedInUser.user.phone,
+                firstname: loggedUser.loggedInUser.user.firstname,
+                lastname: loggedUser.loggedInUser.user.lastname,
+                email: loggedUser.loggedInUser.user.email,
+
+            }
+                    
+         };
+
+         
+
+         //console.log(object)
+         const takeIt =async(payload)=>{
+
+            await axios.post(`https://parseapi.back4app.com/functions/takeOrder`, payload, head )
+            .then(function(response) {
+
+                //console.log(response.data.result)
+                
     
-        let x = (markerID * CARD_WIDTH) + (markerID * 20); 
-        if (Platform.OS === 'ios') {
-          x = x - SPACING_FOR_CARD_INSET;
+                if(response.data.result.length>0){
+
+                        
+                        in_out_Deals = response.data.result 
+                        setAllDeals(response.data.result)
+                        //return response.data.result
+    
+                }else{
+                        //setBusy(false) 
+                }
+    
+            }).catch(function(error){
+                //setBusy(false)        
+                Alert.alert('error ' + error.response.request._response);
+                return []
+    
+            });
+    
+          }
+
+          Alert.alert(
+            "Confirm action",
+            "You're taking order from "+ object.receiverDetails.name,
+            [
+              {
+                text: "Cancel",
+                onPress: () => console.log(""),
+                style: "cancel"
+              },
+              { text: "OK", onPress:()=>takeIt(payload) }
+            ]
+          );
+
         }
+
+
+          const makeDeal =async()=>{
+            await axios.post(`https://parseapi.back4app.com/functions/makeDeal`, payload, head )
+            .then(function(response) {
     
-        _scrollView.current.scrollTo({x: x, y: 0, animated: true});
-      } */
-
-    const _map = useRef(null);
-    const _scrollView = useRef(null);
-
-
-  
-  return (
+                if(response.data.result.length>0){
+                        in_out_Deals = response.data.result 
+                        setAllDeals(response.data.result)
+                        //return response.data.result
     
-    <MapView style={styles.container}
-    key={refresh}
-    ref={_map}
-    provider={PROVIDER_GOOGLE}
-    showsUserLocation={true}
-    followUserLocation={true}
-    pitchEnabled={true}
-    showsCompass={true}
-    showsBuildings={true}
-
-    customMapStyle={ mapDarkStyle }
-    initialRegion={mapState.region}>
-
-  
+                }else{
+                        //setBusy(false) 
+                }
     
-    {/* Plotting Markers.................... */}
+            }).catch(function(error){
+                //setBusy(false)        
+                Alert.alert('error ' + error.response.request._response);
+                return []
+    
+            });
+    
+          }
+            
+    
+
+    return (
+    <SafeAreaView style={{flex:1,backgroundColor:'#ededed'}}>
+        <View style={{flexDirection:'row', marginTop:50, marginBottom:20,backgroundColor:'#fff',padding:15,justifyContent:'space-between',borderBottomWidth:1,borderBottomColor:'#F5AF22'}}>
+            <View>
+                <Entypo name="shopping-cart" size={24} color='#F5AF22' />
+            </View>
+            <Text style={{fontSize:24,fontWeight:'bold'}}>Pending Orders</Text> 
+            <TouchableOpacity 
+                style={{alignItems:'flex-end'}}
+                onPress ={fetch_deals}
+            >
+                <Entypo name="ccw" size={24} color='#F5AF22' />
+            </TouchableOpacity>
+        </View>
+        <ScrollView >
+
+            {allDeals.length <= 0?
+            <View style={{flex:1, marginHorizontal:5}}>
+                <Text style={{fontSize:19, color:"#ababab", textAlign:"center", marginTop:50}}>No Order</Text>
+                <Text style={{fontSize:14, color:"#ababab", textAlign:"center", marginTop:10}}>You see your orders and those of your neighbours here</Text>
+            </View>
+            :
+            <View style={{height:"100%"}}>
+            <FlatList 
+            style={styles.flatList}
+            data = {allDeals}                           
+            keyExtractor={(item, index) => item.id} 
+            //renderItem ={({item}) =>(
+            renderItem ={({item}) =>(
+                /* {loggedUser.loggedInUser.accDet.currentRole===0?
+                
+                    :{}} */
+                <TouchableOpacity onPress={()=>{toggleViewOrder(item)}}>
+                    <View style={styles.listItem}>
+                    <View style={styles.listContent}>
+                        <View style={styles.itemStatusCont}>
+                            <View style={{width:40, justifyContent:"center", alignContent:"center", alignItems:"center", height:40, borderRadius:20, backgroundColor:"#2E2E2E"}}>
+                                {item.receiverDetails.id===loggedUser.loggedInUser.user.uniqueAccNo?
+                                <Entypo name="emoji-flirt" size={24} color='#fff' />:
+                                <Entypo name="bell" size={24} color='#D7CA00' />
+                                }
+                                
+                            </View>
+                        </View>
+                        <View style={styles.ListTextCont}>
+                            <Text style={styles.listHeading}>{item.title}</Text>
+                            <Text style={styles.listDisc}>{item.disc}</Text>
+                        </View>
+                        <View style={{flex: 3, marginTop:8}}>
+                            <Text style={{fontSize:12, color:'#000', marginTop:5}}>{item.amount} Ghc</Text>
+                            <Text style={{fontSize:10, color:'#7E7E7E'}}>Profit:{item.bonus}</Text>
+                        </View>
+
+                        <View style={{flex:2}}>
+                            
+                            <TouchableOpacity onPress={item.receiverDetails.id===loggedUser.loggedInUser.user.uniqueAccNo && item.orderStatus ===0 ?()=>deleteOrder(item):
+                                item.receiverDetails.id===loggedUser.loggedInUser.user.uniqueAccNo && item.orderStatus ===1?()=>makeDeal(item):
+                                item.receiverDetails.id!=loggedUser.loggedInUser.user.uniqueAccNo && item.orderStatus ===0?()=>takeOrder(item):()=>{}} 
+                                
+                                style={{height:50, padding:3, alignContent:"center", justifyContent:"center", width:"90%", backgroundColor: item.receiverDetails.id===loggedUser.loggedInUser.user.uniqueAccNo && item.orderStatus ===0?"red":
+                                item.receiverDetails.id===loggedUser.loggedInUser.user.uniqueAccNo && item.orderStatus ===1?"#2E2E2E":
+                                item.receiverDetails.id!=loggedUser.loggedInUser.user.uniqueAccNo && item.orderStatus ===0?"#26B763":"#2E2E2E", borderRadius:5}}>
+                            {item.receiverDetails.id===loggedUser.loggedInUser.user.uniqueAccNo && item.orderStatus ===0?
+                            <Text style={{textAlign:"center", color:"#fff", fontSize:12}}>Delete</Text>:
+                            item.receiverDetails.id===loggedUser.loggedInUser.user.uniqueAccNo && item.orderStatus ===1?
+                            <Text style={{textAlign:"center", color:"#fff", fontSize:12}}>Waiting</Text>:
+                            item.receiverDetails.id!=loggedUser.loggedInUser.user.uniqueAccNo && item.orderStatus ===0?
+                            <Text style={{textAlign:"center", color:"#fff", fontSize:12}}>Take</Text>:
+                            item.receiverDetails.id!=loggedUser.loggedInUser.user.uniqueAccNo && item.orderStatus ===1?
+                            <Text style={{textAlign:"center", color:"#fff", fontSize:12}}>Waiting</Text>:
+                            item.receiverDetails.id!=loggedUser.loggedInUser.user.uniqueAccNo && item.orderStatus ===1 && item.dispatcherDet.userNum!=loggedUser.loggedInUser.user.uniqueAccNo?
+                            <Text style={{textAlign:"center", color:"#fff", fontSize:12}}>Taken</Text>:
+                            <Text style={{textAlign:"center", color:"#fff", fontSize:12}}>Taken</Text>
+
+                            }
+                                
+                            </TouchableOpacity>
+                        </View>
+                        
+                    </View>
+                    </View>
+                </TouchableOpacity>
+            )}
+            />
+            </View>
+
+            }
+
+                            
+                            
+        </ScrollView>
 
 
-    <Marker 
-        coordinate={{latitude: myNewLat, longitude: myNewLong }} 
-        title='Home'
-        description={"You" }>
-
-        <Image
-          source={require('../assets/pin_yellow.png')}
-          style={{width: 24, height: 42}}
-          resizeMode="contain"
-          />
-      </Marker>
-
-      <MapView.Circle
-                    
-                    center={{latitude:  !liveLat? myNewLat:liveLat , longitude: !liveLong?myNewLong: liveLong}}
-                    radius={700}
-                    strokeWidth={1}
-                    strokeColor="#fff"
-                    fillColor={requestType ===1?'rgba(255, 219, 56, 0.08)': 'rgba(56, 195, 255, 0.08)'}
-                />
-
-
-
-{markers.map((markers, index)=>{
-                    
-                            <MapView.Marker key={index} coordinate={{latitude: markers.latitude, longitude: markers.longitude}}
-                            onPress={(e)=>onMarkerPress(e)}> 
-                  
-                                <View style={[styles.markerWrap]}> 
-                                    {
-                                    // <Animated.Image source={require('./assets/img/img/shopper_light.png')} style={[styles.marker, scaleStyle]} resizeMode='contain'/>
-                                    <Text style={styles.marker} >
-                                         <FontAwesome5 name="user-friends" size={20} color="#fff" />    
-                                    </Text>
-                                    
-                                    }
-                                    
-                                </View>
-                            </MapView.Marker>
-                })}
-
-</MapView>
-
-
+      
+    </SafeAreaView>
   )
 }
 
-export default Order
+export default CartShop
 
 const styles = StyleSheet.create({
-  screenContainer: { 
-      flex: 1,     
-      width: '100%',
-      //height:'100%',
-      backgroundColor: '#000',
-      alignItems: 'center',
-      alignContent: 'center'
-  },
-  container: {
-      flex: 1,
-      width: '100%',
-      height:'100%',
-      backgroundColor: '#000',
-      alignItems: 'center',
-      alignContent: 'center'
-  },
+
+    flatList:{
+        width: '95%',
+        alignSelf: 'center',
+        height: '67%',
+        marginBottom:5       
+    },
+    listItem:{
+        backgroundColor: '#ffffff',
+        width: '100%',
+        height: 80,
+        borderBottomWidth: 1,
+        borderBottomColor: '#cfcfcf',
+    },
+    listContent:{
+        flexDirection: 'row',
+        padding: 10,
+        justifyContent: 'center'
+
+    },
+    itemStatusCont:{
+        borderRadius: 25,
+        width: 40,
+        height: 50,
+        marginLeft: 0,
+        marginTop: 10,
+        marginRight: 5,
+        backgroundColor: '#ffffff',  
+        justifyContent: 'center'
+    },
+    ListTextCont:{
+        flex: 5,
+        marginLeft: 8,
+        marginRight:5,
+        marginTop: 12
+        },
+    listHeading:{
+        fontSize: 14,
+        color: '#212121',
+    
+    
+    },
+    listDisc:{
+        fontSize: 10,
+        color: '#212121'
+    },
+    amountCont:{
+        flex: 2,
+        marginTop: 10
+    },
+    listAmountTotal:{
+        fontSize: 11,
+        color: "#000",
+
+
+    },
+    listToken:{
+        fontSize: 11,
+        color: '#878787'
+    },
+
+
 })

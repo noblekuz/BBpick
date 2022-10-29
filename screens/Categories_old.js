@@ -1,16 +1,8 @@
 import React, {useState} from 'react'
-import { View, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity,Image,Text, ViewBase, RecyclerViewBackedScrollViewComponent, } from 'react-native'
-import Categorycard from '../components/Categorycard';
-import Toggle from '../components/Toggle';
-import { useDispatch, useSelector } from 'react-redux';
-import { theUser } from '../feature/UserSlice'
-import { setUser} from '../feature/UserSlice';
-
+import { View, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity,Image,Text, ViewBase} from 'react-native'
+import Categorycard from '../components/Categorycard'
 
 const Categories = () => {
-  
-  let loggedUser = useSelector(theUser);
-  const dispatch = useDispatch()
  
   const [cat, setCat] = useState([
     {name: 'Restaurant',
@@ -218,113 +210,31 @@ const Categories = () => {
     {name: 'Grocery', img: require('../assets/catImage/grocery.png')},
   ])
 
-  let [dispatcher, setDispatcher] = useState(loggedUser.loggedInUser.accDet.currentRole===0?false:true);
-
-  const handleChangeDispatcher=()=>{
-    if (dispatcher===true){
-      setDispatcher(false)
-      //Adjust current role to 0
-
-      let user = loggedUser.loggedInUser.user;
-      let mySettings = loggedUser.loggedInUser.mySettings;
-      let accDet = {
-        currentRole: 0,
-        userNum:loggedUser.loggedInUser.accDet.userNum,
-        updatedAt:loggedUser.loggedInUser.accDet.updatedAt,
-        studentID:loggedUser.loggedInUser.accDet.studentID,
-        roomNo:loggedUser.loggedInUser.accDet.roomNo,
-        reviews:loggedUser.loggedInUser.accDet.reviews,
-        rating:loggedUser.loggedInUser.accDet.rating,
-        person:loggedUser.loggedInUser.accDet.person,
-        objectId:loggedUser.loggedInUser.accDet.objectId,
-        hostelName:loggedUser.loggedInUser.accDet.hostelName,
-        ghanaPostAddress:loggedUser.loggedInUser.accDet.ghanaPostAddress,
-        createdAt:loggedUser.loggedInUser.accDet.createdAt,
-        className:loggedUser.loggedInUser.accDet.className,
-        allowNotif:loggedUser.loggedInUser.accDet.allowNotif,
-        coordinates:{__type:"GeoPoint", latitude: loggedUser.loggedInUser.accDet.coordinates.latitude,
-                      longitude: loggedUser.loggedInUser.accDet.coordinates.longitude },
-        __type:loggedUser.loggedInUser.accDet.__type,
-      }
-
-      
-      dispatch(setUser({user, mySettings, accDet}))
-
-      //console.log(loggedUser.loggedInUser.accDet)
-
-
-      //Update on Server too
-
-    }else{
-      setDispatcher(true)
-      //Adjust current role to 
-      let user = loggedUser.loggedInUser.user;
-      let mySettings = loggedUser.loggedInUser.mySettings;
-      let accDet = {
-        currentRole: 1,
-        userNum:loggedUser.loggedInUser.accDet.userNum,
-        updatedAt:loggedUser.loggedInUser.accDet.updatedAt,
-        studentID:loggedUser.loggedInUser.accDet.studentID,
-        roomNo:loggedUser.loggedInUser.accDet.roomNo,
-        reviews:loggedUser.loggedInUser.accDet.reviews,
-        rating:loggedUser.loggedInUser.accDet.rating,
-        person:loggedUser.loggedInUser.accDet.person,
-        objectId:loggedUser.loggedInUser.accDet.objectId,
-        hostelName:loggedUser.loggedInUser.accDet.hostelName,
-        ghanaPostAddress:loggedUser.loggedInUser.accDet.ghanaPostAddress,
-        createdAt:loggedUser.loggedInUser.accDet.createdAt,
-        className:loggedUser.loggedInUser.accDet.className,
-        allowNotif:loggedUser.loggedInUser.accDet.allowNotif,
-        coordinates:{__type:"GeoPoint", latitude: loggedUser.loggedInUser.accDet.coordinates.latitude,
-                      longitude: loggedUser.loggedInUser.accDet.coordinates.longitude },
-        __type:loggedUser.loggedInUser.accDet.__type,
-      }
-
-      dispatch(setUser({user, mySettings, accDet}))
-
-      //console.log(loggedUser.loggedInUser.accDet)
-
-
-      //Update on Server too
-
-    }
-  }
-
-
-  //console.log(":::::::::::::::::::::::::::::::::::::::::::::::::::::")
-  //console.log(loggedUser.loggedInUser.accDet.currentRole)
-
  
   
   return (
-    <View style={{paddingTop:20, marginTop:50, 
+    <View style={{
+        paddingTop:50, 
         flex:1,
         display:'flex',
-        backgroundColor: '#290038',
+        height:"50%",
+        flexDirection:"column",
+        justifyContent:'flex-end' ,
+        alignItems:'flex-end',
+        backgroundColor: '#2E2E2E',
         }}>
-        <View style={{marginHorizontal:20, flexDirection:"row", justifyContent:"center", alignItems:"center"}}>
-          <Text style={{fontSize:16, color:dispatcher===true? "#fff":"red", marginHorizontal:10}}>Dispatcher Mode {dispatcher===true? "On":"Off"}</Text>
-          <Toggle value={dispatcher} press={handleChangeDispatcher}/>
 
-         
-          
-        </View>
+      <View style={{width:"100%", backgroundColor:"#ffffff", height:20}}>
 
-        <View style={{width:"90%", backgroundColor:"#fff", height:150, alignSelf:"center", marginVertical:50,
-        borderWidth:1, borderColor:"#290038", borderStyle:"dashed", padding:20}}>
-          {/* <Text style={{textAlign:"center", color:"black", fontSize:18}}>This session contains a list of categories.</Text> */}
-          <Image style={{resizeMode:'cover',marginRight:6, borderRadius: 11,height:100, width:'100%'}} 
-              source={require('../assets/logo.png')}
-          />
-
-        </View>
+      </View>
       <ScrollView
-        contentContainerStyle = {{paddingHorizontal:10, paddingTop:5, alignSelf:"flex-end", marginBottom:10}}
+        contentContainerStyle = {{paddingHorizontal:10,  paddingTop:10, marginBottom:0, backgroundColor:"red"}}
         horizontal
         showsHorizontalScrollIndicator={false}
       >
-        {cat.map((cats) =>{            
-            return( 
+        {cat.map(
+          (cats) =>{
+            return(
               <Categorycard name= {cats.name} 
                 img ={cats.img} 
                 details={cats.details} />

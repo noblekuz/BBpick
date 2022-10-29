@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "725009491009",
+    "project_id": "bbpick-8de65",
+    "storage_bucket": "bbpick-8de65.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:725009491009:android:045352541af175b897d2c0",
+        "android_client_info": {
+          "package_name": "BBpick_1.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "725009491009-iomj61vmri06d8074dqa61bljd3i65ea.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDG-YHiHlGPPZuJbdkLsNnamk-kHlRJKV8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "725009491009-iomj61vmri06d8074dqa61bljd3i65ea.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

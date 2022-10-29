@@ -15,11 +15,12 @@ const CartIcon = () => {
         <TouchableOpacity style={styles.cartstyle}
             onPress={()=>navigation.navigate('CartShop')}
         >
-            <Text style={{...styles.textStyle, backgroundColor:'#fff',paddingHorizontal:4}}>
-                {items.length}
+            <Text style={{...styles.textStyle, color:'#fff',paddingHorizontal:4}}>
+                {items.length} Items
             </Text>
-            <Text style={styles.textStyle}>Open Cart</Text>
-            <Text style={styles.textStyle}>{cartTotal}</Text>
+            <Text style={{...styles.textStyle, color:"#fff"}}>Open Cart</Text>
+            <Text style={{...styles.textStyle, fontSize:28}}>{parseFloat(cartTotal).toFixed(2)}</Text>
+            <Text style={{color:"#F5AF22", fontSize:10}}>Ghc</Text>
         </TouchableOpacity>
         
     </View>
@@ -50,6 +51,6 @@ const styles = StyleSheet.create({
     textStyle: {
         color:'#F5AF22',
         fontWeight:'bold',
-        fontSize: 20
+        fontSize: 18
     }
 })

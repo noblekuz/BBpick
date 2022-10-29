@@ -12,6 +12,8 @@ import {
   Touchable
 } from 'react-native';
 import { Entypo } from '@expo/vector-icons'
+import axios from 'axios';
+import * as Location from "expo-location";
 
 async function fetchCountriesData() {
     const res = await fetch('https://restcountries.com/v3.1/all?fields=flags,idd,name')
@@ -78,8 +80,118 @@ const Signup = ({navigation}) => {
   }, [searchText])
 
   useEffect(() => {
-    console.log(filteredCountries?.length)
+    //console.log(filteredCountries?.length)
   }, [filteredCountries])
+
+  let head = {
+    headers:{
+        'Content-Type': 'application/json',
+        'X-Parse-Application-Id': 'jUTET8D4ZARJa3QeLmu9P1wn6PCYtDiphlg1cQ7t',
+        'X-Parse-REST-API-Key': 'BftEOnyYCXwBn81sycpKcTw03xxJ8nkVA362b9Om'
+                }
+        }
+  //Signup function.... Cloud
+  const register = async() =>{
+            
+            let payload = { email: email, 
+                            pss: password, 
+                            username:fname, 
+                            lastname:lname, 
+                            Phone:phone,
+                            lat: mylat,
+                            long:mylong };
+            
+             await axios.post(`https://parseapi.back4app.com/functions/signUp`, payload, head )
+                .then(function(response) {
+
+                  console.log(response.data.result);
+                  navigation.navigate("login")
+
+
+                }).catch(function(error){
+                    
+                    
+                    console.log('error ' + error.response.request._response);
+
+                });
+    
+}
+
+let [lname, setLname] = useState("")
+function lnameChangeHandler(input){
+  setLname(input);
+ }
+
+ let [fname, setFname] = useState("")
+ function fnameChangeHandler(input){
+   setFname(input);
+  }
+
+  let [phone, setPhone] = useState("")
+ function phoneHandler(input){
+  setPhone(input);
+  }
+  
+  let [email, setEmail] = useState("")
+ function emailInputHandler(input){
+  setEmail(input);
+  }
+
+  let [password, setPassword] = useState("")
+ function passInputHandler(input){
+  setPassword(input);
+  }
+  
+  let [Cpassword, setCPassword] = useState("")
+ function CpassInputHandler(input){
+  setCPassword(input);
+  }
+
+  let [AccountType, setAccountType] = useState("")
+ function AccountTypeHandler(input){
+  setCPassword(input);
+  }
+
+  let [mylat, setMyLat] = useState(0.00);
+  let [mylong, setMyLong] = useState(0.00);
+  
+  const getGPS=async()=>{
+
+  const foregroundPermission = await Location.requestForegroundPermissionsAsync();
+  if (foregroundPermission.granted) {
+    Location.watchPositionAsync(
+      {
+        // Tracking options
+        accuracy: Location.Accuracy.High,
+        distanceInterval: 10,
+      },
+      location => {
+        /* Location object example:
+          {
+            coords: {
+              accuracy: 20.100000381469727,
+              altitude: 61.80000305175781,
+              altitudeAccuracy: 1.3333333730697632,
+              heading: 288.87445068359375,
+              latitude: 36.7384213,
+              longitude: 3.3463877,
+              speed: 0.051263172179460526,
+            },
+            mocked: false,
+            timestamp: 1640286855545,
+          };
+        */
+    
+        setMyLat(location.coords.latitude)
+        setMyLong(location.coords.latitude)
+
+      }
+    )
+  }
+  }
+
+
+  
   
     return (
       <View style={styles.container}>
@@ -93,12 +205,12 @@ const Signup = ({navigation}) => {
           <View style={styles.twoColumn}>
             <View style={{ flex: 1, marginRight: 7 }}>
               <Text style={styles.label}>First Name</Text>
-              <TextInput style={styles.input} placeholder="Eg. John" />
+              <TextInput style={styles.input} value={fname} placeholder="Eg. John" onChangeText={fnameChangeHandler} />
             </View>
   
             <View style={{ flex: 1, marginLeft: 7 }}>
               <Text style={styles.label}>Last Name</Text>
-              <TextInput style={styles.input} placeholder="Eg. Doe" />
+              <TextInput style={styles.input} value={lname} placeholder="Eg. Doe" onChangeText={lnameChangeHandler} />
             </View>
           </View>
   
@@ -119,7 +231,7 @@ const Signup = ({navigation}) => {
                   </Text>
                 </>
               }
-              <TextInput style={styles.rawInput} id="phone" type="tel" name="phone" placeholder=" 833456647" keyboardType='numeric' />
+              <TextInput style={styles.rawInput} value={phone} id="phone" type="tel" name="phone" placeholder=" 833456647" keyboardType='numeric' onChangeText={phoneHandler} />
             </View>
           </View>
   
@@ -159,11 +271,35 @@ const Signup = ({navigation}) => {
   
           <View style={{ marginTop: 10 }}>
             <Text style={styles.label}>Email Address</Text>
-            <TextInput style={styles.input} placeholder="Enter email address" keyboardType='email-address' />
+            <TextInput style={styles.input} value={email} onChangeText={emailInputHandler} placeholder="Enter email address" keyboardType='email-address' />
           </View>
+          <View style={{ marginTop: 10 }}>
+            <Text style={styles.label}>Password</Text>
+            <TextInput style={styles.input} value={password} onChangeText={passInputHandler} placeholder="Enter Password"/>
+          </View>
+          <View style={{ marginTop: 10 }}>
+            <Text style={styles.label}>Confirm Password</Text>
+            <TextInput style={styles.input} value={Cpassword} onChangeText={CpassInputHandler} placeholder="Enter Password again" />
+          </View>
+          
+          
+          <View style={{ marginTop: 30, flexDirection:"row", alignContent:"space-between", justifyContent:"center" }}>
+            <View style={{width:"50%"}} >
+            <Text style={styles.label}>Latitude: {mylat}</Text>
+            <Text style={styles.label}>Longitude: {mylong} </Text>
+            </View>
+            
+            <TouchableOpacity style={{justifyContent:"center", padding: 5, alignContent:"center", color:"#3E3E3E", width:"50%", height:40, borderRadius:5, backgroundColor:"#3E3E3E"}} onPress={getGPS}>
+              <Text style={{fontSize:12, color:"#fff", textAlign:"center"}}>This is my Home Location</Text>
+            </TouchableOpacity>
+            
+          </View>
+          <Text style={{fontSize:10, color:"#000", marginTop:10}}>Use this location as your default delivery point. You can change it in your app setting</Text>
+        
+          
   
-          <View style={{flex:1, top: 300 }}>
-            <TouchableOpacity style={styles.button}>
+          <View style={{flex:1, top: 30 }}>
+            <TouchableOpacity style={styles.button} onPress={(register)}>
               <Text style={styles.buttonText}>Sign Up</Text>
             </TouchableOpacity>
             <View style={{flexDirection: 'row', justifyContent:'center', alignContent: 'flex-end', marginTop: 20}}>

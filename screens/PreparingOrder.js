@@ -4,7 +4,7 @@ import {Text,SafeAreaView} from 'react-native'
 function PreparingOrder() {
   return (
     <SafeAreaView>
-            <Text>Order Total</Text>
+            <Text>Order Sent</Text>
 
     </SafeAreaView>
     

@@ -10,7 +10,6 @@ const Categorycard = ({img,name,details}) => {
           contentContainerStyle = {{paddingHorizontal:15, paddingTop:10}}
           horizontal
           showsHorizontalScrollIndicator={false}
-           
         >
           
           <TouchableOpacity 
@@ -23,7 +22,7 @@ const Categorycard = ({img,name,details}) => {
               style= {styles.imgStyle}
               source={img}
             />
-            <Text>{name}</Text>
+            <Text style={{fontSize:18, marginTop:30}}>{name}</Text>
           </TouchableOpacity>
         
           
@@ -42,16 +41,16 @@ const styles = StyleSheet.create({
         borderStyle: 'dashed',
         width: 150,
         height: 150,
-        borderRadius: 150,
-        marginRight: 10,
-        backgroundColor: 'yellow',
+        borderRadius: 100,
+        marginRight: 2,
+        backgroundColor: '#F5AF22',
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
     },
     imgStyle : {
-        height : 20,
-        width : 20,
+        height : 60,
+        width : 80,
         borderRadius: 10,
 
     },
